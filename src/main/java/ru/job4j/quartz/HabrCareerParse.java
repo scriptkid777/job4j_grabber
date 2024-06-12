@@ -9,6 +9,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 
 public class HabrCareerParse implements DateTimeParser {
@@ -19,7 +20,11 @@ public class HabrCareerParse implements DateTimeParser {
 
     @Override
     public LocalDateTime parse(String parse) {
-        return LocalDateTime.parse(parse, DateTimeFormatter.ISO_DATE_TIME);
+        try {
+            return LocalDateTime.parse(parse, DateTimeFormatter.ISO_DATE_TIME);
+        } catch (DateTimeParseException e) {
+            return null;
+        }
     }
 
     public static void main(String[] args) throws IOException {
