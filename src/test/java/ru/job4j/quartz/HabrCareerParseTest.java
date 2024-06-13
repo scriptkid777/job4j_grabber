@@ -11,17 +11,17 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 class HabrCareerParseTest {
 
-    private static HabrCareerParse habrCareerParse;
+    private static DateTimeParser parser;
 
     @BeforeAll
     public static void init() {
-        habrCareerParse = new HabrCareerParse();
+        parser = new Parser();
     }
 
     @Test
     public void parseFormattedDate1() {
         String date = "2024-02-21T18:21:56+03:00";
-        LocalDateTime parsedDate = habrCareerParse.parse(date);
+        LocalDateTime parsedDate = parser.parse(date);
         LocalDateTime expectDate = LocalDateTime.parse(date, DateTimeFormatter.ISO_DATE_TIME);
         assertEquals(parsedDate, expectDate);
     }
@@ -29,7 +29,7 @@ class HabrCareerParseTest {
     @Test
     public void parseFormattedDate2() {
         String invalidDate = "invalidDateTimeString";
-        LocalDateTime parsedDate = habrCareerParse.parse(invalidDate);
+        LocalDateTime parsedDate = parser.parse(invalidDate);
         assertNull(parsedDate);
     }
 }
