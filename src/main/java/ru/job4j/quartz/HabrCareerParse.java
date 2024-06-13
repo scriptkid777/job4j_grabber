@@ -14,25 +14,25 @@ public class HabrCareerParse  {
     public static final String PREFIX = "/vacancies?page=";
     public static final String SUFFIX = "&q=Java%20developer&type=all";
 
-
-
-
+    private static final int START_PAGE = 1;
+    private static final int LAST_PAGE = 5;
 
     public static void main(String[] args) throws IOException {
-        int pageNumber = 1;
-        String fullLink = "%s%s%d%s".formatted(SOURCE_LINK, PREFIX, pageNumber, SUFFIX);
-        Connection connection = Jsoup.connect(fullLink);
-        DateTimeParser habrCParse = new Parser();
-        Document document = connection.get();
-        Elements rows = document.select(".vacancy-card__inner");
-        rows.forEach(row -> {
-            Element titleElement = row.select(".vacancy-card__title").first();
-            Element linkElement = titleElement.child(0);
-            String vacancyName = titleElement.text();
-            Element dateElement = row.select(".basic-date").first();
-            String date = dateElement.attr("datetime");
-            String link = String.format("%s%s", SOURCE_LINK, linkElement.attr("href"));
-            System.out.printf("%s %s %s%n ", vacancyName, link, habrCParse.parse(date));
-        });
+        for (int pageNumb = START_PAGE; pageNumb <= LAST_PAGE; pageNumb++) {
+            String fullLink = "%s%s%d%s".formatted(SOURCE_LINK, PREFIX, pageNumb, SUFFIX);
+            Connection connection = Jsoup.connect(fullLink);
+            DateTimeParser habrCParse = new Parser();
+            Document document = connection.get();
+            Elements rows = document.select(".vacancy-card__inner");
+            rows.forEach(row -> {
+                Element titleElement = row.select(".vacancy-card__title").first();
+                Element linkElement = titleElement.child(0);
+                String vacancyName = titleElement.text();
+                Element dateElement = row.select(".basic-date").first();
+                String date = dateElement.attr("datetime");
+                String link = String.format("%s%s", SOURCE_LINK, linkElement.attr("href"));
+                System.out.printf("%s %s %s%n ", vacancyName, link, habrCParse.parse(date));
+            });
+        }
     }
 }
