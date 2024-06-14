@@ -17,6 +17,12 @@ public class HabrCareerParse  {
     private static final int START_PAGE = 1;
     private static final int LAST_PAGE = 5;
 
+    private String retrieveDescription(String link) throws IOException {
+        String fullPage = String.format("%s%s", SOURCE_LINK, link);
+        Document document = Jsoup.connect(fullPage).get();
+        return  document.select(".vacancy-description__text").first().text();
+    }
+
     public static void main(String[] args) throws IOException {
         for (int pageNumb = START_PAGE; pageNumb <= LAST_PAGE; pageNumb++) {
             String fullLink = "%s%s%d%s".formatted(SOURCE_LINK, PREFIX, pageNumb, SUFFIX);
