@@ -42,7 +42,8 @@ public class HabrCareerParse implements Parse {
         Element firstVacDate = row.select(".vacancy-card__date")
                 .first()
                 .child(0);
-        post.setCreated(dateTimeParser.parse("datetime"));
+        String date = firstVacDate.attr("datetime");
+        post.setCreated(dateTimeParser.parse(date));
         return post;
    }
 
@@ -63,6 +64,7 @@ public class HabrCareerParse implements Parse {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            System.out.println(posts);
         }
         return posts;
     }
