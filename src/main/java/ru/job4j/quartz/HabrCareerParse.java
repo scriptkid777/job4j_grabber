@@ -68,10 +68,4 @@ public class HabrCareerParse implements Parse {
         }
         return posts;
     }
-
-
-    public static void main(String[] args) throws IOException {
-        HabrCareerParse habrCareerParse = new HabrCareerParse(new Parser());
-        habrCareerParse.list(SOURCE_LINK);
-    }
 }
