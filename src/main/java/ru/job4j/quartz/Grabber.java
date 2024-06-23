@@ -72,6 +72,6 @@ public class Grabber implements Grab {
         var parse = new HabrCareerParse(new Parser());
         var store = new PsqlStore(config);
         var time = Integer.parseInt(config.getProperty("time"));
-        new Grabber(parse, store, scheduler, time);
+        new Grabber(parse, store, scheduler, time).init();
     }
 }
