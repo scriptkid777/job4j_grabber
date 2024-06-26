@@ -16,6 +16,7 @@ public class PsqlStore  implements Store {
                 properties.getProperty("password"));
     }
 
+    @SuppressWarnings("checkstyle:AvoidNestedBlocks")
     @Override
     public void save(Post post) {
         try {
@@ -24,17 +25,14 @@ public class PsqlStore  implements Store {
                             + "ON CONFLICT(link) "
                             + "DO NOTHING ",
                     Statement.RETURN_GENERATED_KEYS);
-            
-            {
-                statement.setString(1, post.getTitle());
-                statement.setString(2, post.getDescription());
-                statement.setString(3, post.getLink());
-                statement.setTimestamp(4, Timestamp.valueOf(post.getCreated()));
-                statement.executeUpdate();
-                ResultSet generatedKeys = statement.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    post.setId(post.getId());
-                }
+            statement.setString(1, post.getTitle());
+            statement.setString(2, post.getDescription());
+            statement.setString(3, post.getLink());
+            statement.setTimestamp(4, Timestamp.valueOf(post.getCreated()));
+            statement.executeUpdate();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                post.setId(post.getId());
             }
         } catch (SQLException e) {
             e.printStackTrace();
